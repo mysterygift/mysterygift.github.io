@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Albatross is an offline-first, free, open-source production management app for independent and small-scale film/TV/video productions."
+    />
+    <title>Albatross — Production management, end-to-end</title>
+
+    <!-- Tailwind (CDN, no build) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "ui-sans-serif",
+                "system-ui",
+                "-apple-system",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica",
+                "Arial",
+                "Apple Color Emoji",
+                "Segoe UI Emoji",
+              ],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      :root {
+        color-scheme: dark;
+        --graphite-0: #0b0f14;
+        --graphite-1: #0e141c;
+        --graphite-2: #111a24;
+        --graphite-3: #172231;
+        --graphite-4: #243246;
+        --mint: #45f7c4;
+        --mint-2: #2fe8b8;
+        --mint-3: #7fffe0;
+        --ring: rgba(69, 247, 196, 0.35);
+        --border: rgba(255, 255, 255, 0.08);
+        --border-2: rgba(255, 255, 255, 0.12);
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      section {
+        scroll-margin-top: 112px;
+      }
+
+      body {
+        background: radial-gradient(1200px 800px at 20% 12%, rgba(69, 247, 196, 0.14), transparent 60%),
+          radial-gradient(900px 650px at 75% 20%, rgba(127, 255, 224, 0.10), transparent 55%),
+          radial-gradient(900px 700px at 20% 75%, rgba(31, 141, 255, 0.10), transparent 60%),
+          radial-gradient(800px 650px at 80% 82%, rgba(69, 247, 196, 0.10), transparent 60%),
+          linear-gradient(180deg, var(--graphite-0), var(--graphite-1));
+      }
+
+      .glass {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .lift {
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background-color 180ms ease;
+        will-change: transform;
+      }
+      .lift:hover {
+        transform: translateY(-3px);
+        border-color: var(--border-2);
+      }
+
+      .cardGlow {
+        position: relative;
+      }
+      .cardGlow::before {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        border-radius: 1.25rem;
+        background: radial-gradient(900px 200px at 20% 0%, rgba(69, 247, 196, 0.22), transparent 55%),
+          radial-gradient(900px 220px at 80% 0%, rgba(127, 255, 224, 0.14), transparent 55%),
+          radial-gradient(900px 240px at 60% 100%, rgba(31, 141, 255, 0.10), transparent 50%);
+        opacity: 0.75;
+        filter: blur(16px);
+        pointer-events: none;
+        z-index: -1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .mintRing:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 4px var(--ring);
+      }
+
+      @keyframes floaty {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+      .floaty {
+        animation: floaty 6s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-30%);
+          opacity: 0.0;
+        }
+        25% {
+          opacity: 0.35;
+        }
+        100% {
+          transform: translateX(30%);
+          opacity: 0.0;
+        }
+      }
+      .shimmer::after {
+        content: "";
+        position: absolute;
+        inset: -30% -10%;
+        background: radial-gradient(closest-side, rgba(69, 247, 196, 0.22), transparent 60%);
+        transform: translateX(-30%);
+        opacity: 0;
+        animation: shimmer 8.5s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      @keyframes bgDrift {
+        0% {
+          filter: hue-rotate(0deg);
+        }
+        50% {
+          filter: hue-rotate(8deg);
+        }
+        100% {
+          filter: hue-rotate(0deg);
+        }
+      }
+      .bgDrift {
+        animation: bgDrift 14s ease-in-out infinite;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .floaty,
+        .shimmer::after,
+        .bgDrift {
+          animation: none !important;
+        }
+        .lift,
+        .lift:hover {
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="text-zinc-100 antialiased bgDrift">
+    <a
+      href="#home"
+      class="mintRing sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] rounded-lg px-3 py-2 glass"
+    >
+      Skip to content
+    </a>
+
+    <!-- Top toolbar -->
+    <header class="fixed inset-x-0 top-0 z-50">
+      <!-- Legibility gradient under the floating bar -->
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-0 -top-10 h-44 bg-gradient-to-b from-black/80 via-[color:var(--graphite-0)]/55 to-transparent"
+      ></div>
+      <div class="mx-auto max-w-6xl px-4 pt-4">
+        <div class="glass rounded-2xl px-3 sm:px-4 py-3">
+          <div class="flex items-center justify-between gap-3">
+            <a href="#home" class="group flex items-center gap-2 mintRing rounded-xl px-2 py-1">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5"
+              >
+                <i data-lucide="albatross" class="hidden"></i>
+                <img
+                  src="./albatross-128x.png"
+                  alt="Albatross"
+                  class="h-5 w-5 object-contain"
+                  width="20"
+                  height="20"
+                  loading="eager"
+                  decoding="async"
+                />
+              </span>
+              <div class="leading-tight">
+                <div class="text-sm font-semibold tracking-tight">Albatross</div>
+                <div class="text-xs text-zinc-400">Production management</div>
+              </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-1">
+              <a
+                href="#home"
+                class="mintRing navlink rounded-xl px-3 py-2 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-white/5"
+              >
+                Home
+              </a>
+              <a
+                href="#features"
+                class="mintRing navlink rounded-xl px-3 py-2 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-white/5"
+              >
+                Features
+              </a>
+              <a
+                href="#workflow"
+                class="mintRing navlink rounded-xl px-3 py-2 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-white/5"
+              >
+                Workflow
+              </a>
+              <a
+                href="#download"
+                class="mintRing navlink rounded-xl px-3 py-2 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-white/5"
+              >
+                Download
+              </a>
+            </nav>
+
+            <div class="flex items-center gap-2">
+              <a
+                href="https://github.com/mysterygift/albatross/"
+                class="mintRing hidden sm:inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm border border-white/10 bg-white/5 hover:bg-white/10"
+              >
+                <i data-lucide="git-branch" class="h-4 w-4"></i>
+                View Source Code
+              </a>
+              <a
+                href="https://github.com/mysterygift/albatross"
+                class="mintRing inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-[color:var(--graphite-0)] bg-[color:var(--mint)] hover:bg-[color:var(--mint-3)]"
+              >
+                <i data-lucide="download" class="h-4 w-4"></i>
+                Download Latest Build
+              </a>
+            </div>
+          </div>
+
+          <!-- Mobile nav -->
+          <div class="mt-3 grid grid-cols-4 gap-2 md:hidden">
+            <a
+              href="#home"
+              class="mintRing navlink rounded-xl px-3 py-2 text-xs text-center text-zinc-200 border border-white/10 bg-white/5 hover:bg-white/10"
+            >
+              Home
+            </a>
+            <a
+              href="#features"
+              class="mintRing navlink rounded-xl px-3 py-2 text-xs text-center text-zinc-200 border border-white/10 bg-white/5 hover:bg-white/10"
+            >
+              Features
+            </a>
+            <a
+              href="#workflow"
+              class="mintRing navlink rounded-xl px-3 py-2 text-xs text-center text-zinc-200 border border-white/10 bg-white/5 hover:bg-white/10"
+            >
+              Workflow
+            </a>
+            <a
+              href="#download"
+              class="mintRing navlink rounded-xl px-3 py-2 text-xs text-center text-zinc-200 border border-white/10 bg-white/5 hover:bg-white/10"
+            >
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="pt-28 sm:pt-32">
+      <!-- Hero -->
+      <section id="home" class="mx-auto max-w-6xl px-4 pb-10 sm:pb-16">
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-7">
+
+            <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight">
+              End-to-end production management for
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[color:var(--mint-3)] via-[color:var(--mint)] to-sky-200">
+                independent filmmakers
+              </span>
+              who deliver.
+            </h1>
+
+            <p class="mt-5 text-base sm:text-lg text-zinc-300 leading-relaxed">
+              Albatross is a free, open-source desktop app for production managers across indie and small-scale film, TV, and video work.
+              Plan budgets, build schedules, track spend, and deliver confidently — all running locally on your machine.
+              <br>
+              Did I mention it's free?
+            </p>
+
+            <div class="mt-7 flex flex-col sm:flex-row gap-3">
+              <a
+                href="https://github.com/mysterygift/albatross"
+                class="mintRing inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold text-[color:var(--graphite-0)] bg-[color:var(--mint)] hover:bg-[color:var(--mint-3)] transition-colors"
+              >
+                <i data-lucide="download" class="h-4 w-4"></i>
+                Download latest build
+              </a>
+              <a
+                href="#features"
+                class="mintRing inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+              >
+                <i data-lucide="sparkles" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                See what it does
+              </a>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-zinc-400">
+              <div class="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="laptop" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                  Runs locally
+                </div>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="database" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                  Offline-first
+                </div>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 px-3 py-3 col-span-2 sm:col-span-1">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="badge-check" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                  Free & open-source
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5">
+            <div class="cardGlow">
+              <div class="glass shimmer relative overflow-hidden rounded-[1.25rem] p-5 sm:p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <div class="text-sm text-zinc-400">My Cool Film</div>
+                    <div class="mt-1 text-lg font-semibold tracking-tight">Here are the headlines...</div>
+                  </div>
+                  <div class="floaty inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                    <i data-lucide="radar" class="h-5 w-5 text-[color:var(--mint)]"></i>
+                  </div>
+                </div>
+
+                <div class="mt-5 grid gap-3">
+                  <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex items-center justify-between gap-2">
+                      <div class="flex items-center gap-2 text-sm font-semibold">
+                        <i data-lucide="wallet" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                        Budget health
+                      </div>
+                      <span class="text-xs text-zinc-400">Actuals • Cost Reporting • Revisions</span>
+                    </div>
+                    <div class="mt-3 h-2 w-full rounded-full bg-white/5 overflow-hidden">
+                      <div class="h-full w-[68%] rounded-full bg-gradient-to-r from-[color:var(--mint)] to-sky-300"></div>
+                    </div>
+                  </div>
+
+                  <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex items-center justify-between gap-2">
+                      <div class="flex items-center gap-2 text-sm font-semibold">
+                        <i data-lucide="calendar-days" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                        Scheduling
+                      </div>
+                      <span class="text-xs text-zinc-400">Shot Listing • Call Sheets • Stripboards</span>
+                    </div>
+                    <div class="mt-3 flex gap-2">
+                      <span class="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-xs text-zinc-300">Shoot Day 12</span>
+                      <span class="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-xs text-zinc-300">Weather auto-pull</span>
+                      <span class="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-xs text-zinc-300 hidden sm:inline-flex">Travel time</span>
+                    </div>
+                  </div>
+
+                  <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex items-center justify-between gap-2">
+                      <div class="flex items-center gap-2 text-sm font-semibold">
+                        <i data-lucide="package" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                        Crew and Cast Management
+                      </div>
+                      <span class="text-xs text-zinc-400">Who • Where • When</span>
+                    </div>
+                    <div class="mt-3 text-xs text-zinc-300">
+                      Easily assign and manage crew and cast across episodic and feature film projects.
+                    </div>
+                  </div>
+                </div>
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="mx-auto max-w-6xl px-4 py-10 sm:py-16">
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <div class="text-xs uppercase tracking-[0.2em] text-zinc-400">Features</div>
+            <h2 class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">
+              Everything you need. None of the noise.
+            </h2>
+            <p class="mt-3 text-zinc-300 max-w-2xl">
+              We designed Albatross out of frustration with existing tools. We built Albatross to be: easy to use, and deeply interactive. Every feature in Albatross talks to each other, so when you're working in Albatross it's like working with your own personal production team.
+            </p>
+          </div>
+          <div class="hidden sm:flex items-center gap-2 text-xs text-zinc-400">
+            <i data-lucide="sparkles" class="h-4 w-4 text-[color:var(--mint)]"></i>
+            Sleek, fast, and local.
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="glass lift rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                <i data-lucide="wallet" class="h-5 w-5 text-[color:var(--mint)]"></i>
+              </div>
+              <div>
+                <div class="text-sm font-semibold">Powerful Budgeting</div>
+                <div class="text-xs text-zinc-400">Cost reporting • versioning • exports</div>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
+              Build budgets for film, TV, and video — then track the reality. Actualisation, fringes & contingencies,
+              cost reports, currency switching, custom cost groups, vendor tracking, and export cost reports with a click of a button.
+            </p>
+          </div>
+
+          <div class="glass lift rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                <i data-lucide="receipt" class="h-5 w-5 text-[color:var(--mint)]"></i>
+              </div>
+              <div>
+                <div class="text-sm font-semibold">POs, invoices & floats</div>
+                <div class="text-xs text-zinc-400">Match spend • manage cash</div>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
+              Track purchase orders and invoices, reconcile expenditure, and manage floats — everyone loves it when production pays on time.
+            </p>
+          </div>
+
+          <div class="glass lift rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                <i data-lucide="calendar-days" class="h-5 w-5 text-[color:var(--mint)]"></i>
+              </div>
+              <div>
+                <div class="text-sm font-semibold">Scheduling has never been so good!</div>
+                <div class="text-xs text-zinc-400">Stripboards • call sheets • DOOD</div>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
+              Plan shoot days, shot lists, stripboards, and generate call sheets + movement orders. Pull weather,
+              sunrise/sunset, and travel times — and link crew/cast bookings into a Day-Out-Of-Days view.
+            </p>
+          </div>
+
+          <div class="glass lift rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                <i data-lucide="wand-sparkles" class="h-5 w-5 text-[color:var(--mint)]"></i>
+              </div>
+              <div>
+                <div class="text-sm font-semibold">Smart schedule insight</div>
+                <div class="text-xs text-zinc-400">Spot friction before it lands</div>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
+              Get practical signals from your plan: identify inefficiencies, highlight pressure points, and find places
+              to streamline before you lock the board.
+            </p>
+          </div>
+
+          <div class="glass lift rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                <i data-lucide="package" class="h-5 w-5 text-[color:var(--mint)]"></i>
+              </div>
+              <div>
+                <div class="text-sm font-semibold">Equipment & kit lists</div>
+                <div class="text-xs text-zinc-400">Rentals • purchases • exports</div>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
+              Track gear per project, build kit lists from your registry, and export/share them with crew. Keep the set
+              moving — and make wrap a little less chaotic.
+            </p>
+          </div>
+
+          <div class="glass lift rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                <i data-lucide="check-check" class="h-5 w-5 text-[color:var(--mint)]"></i>
+              </div>
+              <div>
+                <div class="text-sm font-semibold">Tasks to delivery</div>
+                <div class="text-xs text-zinc-400">Teams • priorities • pinch points</div>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
+              Assign tasks by person or department, track priority and workload, and keep momentum from early budgeting
+              through to delivering your masters.
+            </p>
+          </div>
+
+          <div class="glass lift rounded-2xl p-5 border border-white/10 sm:col-span-2 lg:col-span-3">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                  <i data-lucide="layout-dashboard" class="h-5 w-5 text-[color:var(--mint)]"></i>
+                </div>
+                <div>
+                  <div class="text-sm font-semibold">Dashboards, sharing, scripts & deliverables</div>
+                  <div class="text-xs text-zinc-400">APF files • script parsing • SVOD templates</div>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Project dashboard</span>
+                <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Import/export projects (.APF)</span>
+                <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Script → scenes</span>
+                <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Deliverables templates</span>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-zinc-300 leading-relaxed">
+              Get an at-a-glance view across your slate, share projects as compact <span class="text-zinc-200 font-semibold">.APF</span> files,
+              parse scripts into scenes, and track deliverables against templates aligned with major platforms.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Workflow -->
+      <section id="workflow" class="mx-auto max-w-6xl px-4 py-10 sm:py-16">
+        <div class="glass rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+          <div class="absolute inset-0 pointer-events-none opacity-80"
+            style="
+              background:
+                radial-gradient(700px 260px at 10% 10%, rgba(69,247,196,0.16), transparent 60%),
+                radial-gradient(800px 320px at 85% 20%, rgba(127,255,224,0.10), transparent 55%),
+                radial-gradient(900px 360px at 55% 100%, rgba(31,141,255,0.10), transparent 60%);
+            "
+          ></div>
+
+          <div class="relative">
+            <div class="text-xs uppercase tracking-[0.2em] text-zinc-400">Workflow</div>
+            <h2 class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">Pre-pro to delivery — connected.</h2>
+            <p class="mt-3 text-zinc-300 max-w-3xl">
+              Albatross is designed to reduce handoffs and duplicated work. Your schedule informs your paperwork,
+              your spend stays tied to your plan, and your deliverables stay visible throughout.
+            </p>
+
+            <div class="mt-7 grid gap-4 md:grid-cols-3">
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div class="flex items-center gap-3">
+                  <div class="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                    <i data-lucide="pen-tool" class="h-5 w-5 text-[color:var(--mint)]"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-semibold">Pre-pro</div>
+                    <div class="text-xs text-zinc-400">Budget • tasks • vendors</div>
+                  </div>
+                </div>
+                <p class="mt-3 text-sm text-zinc-300">
+                  Build a budget you can actually run, assign owners, and set up vendors and reporting structure early.
+                </p>
+              </div>
+
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div class="flex items-center gap-3">
+                  <div class="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                    <i data-lucide="clapperboard" class="h-5 w-5 text-[color:var(--mint)]"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-semibold">Production</div>
+                    <div class="text-xs text-zinc-400">Schedule • paperwork • kit</div>
+                  </div>
+                </div>
+                <p class="mt-3 text-sm text-zinc-300">
+                  Plan shoot days, generate call sheets, keep bookings and DOOD aligned, and keep kit lists shareable.
+                </p>
+              </div>
+
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div class="flex items-center gap-3">
+                  <div class="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                    <i data-lucide="film" class="h-5 w-5 text-[color:var(--mint)]"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-semibold">Post & delivery</div>
+                    <div class="text-xs text-zinc-400">Deliverables • masters • exports</div>
+                  </div>
+                </div>
+                <p class="mt-3 text-sm text-zinc-300">
+                  Track deliverables against templates, keep status visible, and export/share the project when you need to.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div class="text-sm text-zinc-300">
+                Runs locally. Stays fast. Keeps you in control.
+              </div>
+              <div class="flex gap-3">
+                <a
+                  href="https://github.com/mysterygift/albatross"
+                  class="mintRing inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-semibold border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                >
+                  <i data-lucide="github" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                  View source
+                </a>
+                <a
+                  href="#download"
+                  class="mintRing inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-semibold text-[color:var(--graphite-0)] bg-[color:var(--mint)] hover:bg-[color:var(--mint-3)] transition-colors"
+                >
+                  <i data-lucide="download" class="h-4 w-4"></i>
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Download -->
+      <section id="download" class="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+        <div class="grid lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-7">
+            <div class="text-xs uppercase tracking-[0.2em] text-zinc-400">Download</div>
+            <h2 class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">
+              Get Albatross — free, open-source, and ready for real productions.
+            </h2>
+            <p class="mt-3 text-zinc-300 leading-relaxed">
+              Download the latest build from GitHub. Albatross runs locally and is designed to stay useful even when you’re offline.
+            </p>
+            <div class="mt-6 flex flex-col sm:flex-row gap-3">
+              <a
+                href="https://github.com/mysterygift/albatross/releases/latest"
+                class="mintRing inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold text-[color:var(--graphite-0)] bg-[color:var(--mint)] hover:bg-[color:var(--mint-3)] transition-colors"
+              >
+                <i data-lucide="download" class="h-4 w-4"></i>
+                Download latest build
+              </a>
+              <a
+                href="https://github.com/mysterygift/albatross/releases/latest"
+                class="mintRing inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+              >
+                <i data-lucide="external-link" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                Release notes (GitHub)
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5">
+            <div class="cardGlow">
+              <div class="glass rounded-3xl p-6 border border-white/10">
+                <div class="flex items-center gap-3">
+                  <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                    <i data-lucide="shield-check" class="h-5 w-5 text-[color:var(--mint)]"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-semibold">Local by default</div>
+                    <div class="text-xs text-zinc-400">Your projects stay on your machine.</div>
+                  </div>
+                </div>
+                <div class="mt-5 grid gap-3 text-sm text-zinc-300">
+                  <div class="flex items-start gap-2">
+                    <i data-lucide="check" class="h-4 w-4 mt-0.5 text-[color:var(--mint)]"></i>
+                    <div>Offline-first workflow for production reality.</div>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <i data-lucide="check" class="h-4 w-4 mt-0.5 text-[color:var(--mint)]"></i>
+                    <div>Export/share projects with compact <span class="font-semibold text-zinc-200">.APF</span> files.</div>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <i data-lucide="check" class="h-4 w-4 mt-0.5 text-[color:var(--mint)]"></i>
+                    <div>Modern UI with fast navigation and crisp reporting.</div>
+                  </div>
+                </div>
+
+                <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-zinc-400">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="info" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                    Placeholder link: downloads currently point to the GitHub repo.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="mx-auto max-w-6xl px-4 pb-12">
+        <div class="glass rounded-2xl px-5 py-4 border border-white/10">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="text-sm text-zinc-300">
+              <span class="font-semibold">Albatross</span>
+              <span class="text-zinc-500">—</span>
+              <span class="text-zinc-400">2026 – No Holds Barred Pictures Ltd</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <a href="#home" class="mintRing text-zinc-400 hover:text-zinc-200">Back to top</a>
+              <span class="text-zinc-600">•</span>
+              <a
+                href="https://github.com/mysterygift/albatross/releases/latest"
+                class="mintRing inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200"
+              >
+                <i data-lucide="github" class="h-4 w-4"></i>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+
+      // Active section highlighting (simple + lightweight)
+      const links = Array.from(document.querySelectorAll(".navlink"));
+      const sections = ["home", "features", "workflow", "download"]
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+      const setActive = (id) => {
+        for (const a of links) {
+          const href = a.getAttribute("href") || "";
+          const active = href === `#${id}`;
+          a.classList.toggle("text-zinc-100", active);
+          a.classList.toggle("bg-white/10", active);
+          a.classList.toggle("border", active);
+          a.classList.toggle("border-white/10", active);
+        }
+      };
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
+          if (visible?.target?.id) setActive(visible.target.id);
+        },
+        { root: null, threshold: [0.2, 0.35, 0.5] }
+      );
+
+      sections.forEach((s) => io.observe(s));
+      setActive("home");
+    </script>
+  </body>
+</html>
