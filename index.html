@@ -7,7 +7,7 @@
       name="description"
       content="Albatross is an offline-first, free, open-source production management app for independent and small-scale film/TV/video productions."
     />
-    <title>Albatross — Production management, end-to-end</title>
+    <title>Albatross — Open Source Film/TV Production Management</title>
 
     <!-- Tailwind (CDN, no build) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -187,11 +187,11 @@
     </a>
 
     <!-- Top toolbar -->
-    <header class="fixed inset-x-0 top-0 z-50">
+    <header class="relative md:fixed inset-x-0 top-0 z-50">
       <!-- Legibility gradient under the floating bar -->
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute inset-x-0 -top-10 h-44 bg-gradient-to-b from-black/80 via-[color:var(--graphite-0)]/55 to-transparent"
+        class="pointer-events-none hidden md:block absolute inset-x-0 -top-10 h-44 bg-gradient-to-b from-black/80 via-[color:var(--graphite-0)]/55 to-transparent"
       ></div>
       <div class="mx-auto max-w-6xl px-4 pt-4">
         <div class="glass rounded-2xl px-3 sm:px-4 py-3">
@@ -213,7 +213,7 @@
               </span>
               <div class="leading-tight">
                 <div class="text-sm font-semibold tracking-tight">Albatross</div>
-                <div class="text-xs text-zinc-400">Production management</div>
+                <div class="text-xs text-zinc-400">by No Holds Barred Pictures</div>
               </div>
             </a>
 
@@ -293,7 +293,7 @@
       </div>
     </header>
 
-    <main class="pt-28 sm:pt-32">
+    <main class="pt-8 sm:pt-10 md:pt-28 lg:pt-32">
       <!-- Hero -->
       <section id="home" class="mx-auto max-w-6xl px-4 pb-10 sm:pb-16">
         <div class="grid lg:grid-cols-12 gap-6 items-start">
@@ -310,8 +310,8 @@
             <p class="mt-5 text-base sm:text-lg text-zinc-300 leading-relaxed">
               Albatross is a free, open-source desktop app for production managers across indie and small-scale film, TV, and video work.
               Plan budgets, build schedules, track spend, and deliver confidently — all running locally on your machine.
-              <br>
-              Did I mention it's free?
+              <br><br>
+              Did I mention that it's free?
             </p>
 
             <div class="mt-7 flex flex-col sm:flex-row gap-3">
@@ -398,7 +398,7 @@
                   <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
                     <div class="flex items-center justify-between gap-2">
                       <div class="flex items-center gap-2 text-sm font-semibold">
-                        <i data-lucide="package" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                        <i data-lucide="user-star" class="h-4 w-4 text-[color:var(--mint)]"></i>
                         Crew and Cast Management
                       </div>
                       <span class="text-xs text-zinc-400">Who • Where • When</span>
@@ -632,7 +632,7 @@
                   href="https://github.com/mysterygift/albatross"
                   class="mintRing inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-semibold border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
                 >
-                  <i data-lucide="github" class="h-4 w-4 text-[color:var(--mint)]"></i>
+                  <i data-lucide="git-branch" class="h-4 w-4 text-[color:var(--mint)]"></i>
                   View source
                 </a>
                 <a
