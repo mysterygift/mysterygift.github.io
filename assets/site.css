@@ -291,7 +291,7 @@ html.flat .sl-shot .shot .win-body{max-height:none}
 .p-hero .wmb{--px:0px;--py:0px;margin-top:clamp(10px,2vw,24px)}
 .p-hero .wm{font-size:20vw;overflow:visible;padding-bottom:.1em}
 .p-hero .wm .ch{animation-name:rise}
-.p-hero .wmb{overflow:hidden}
+.p-hero .wmb{overflow:visible;clip-path:inset(0 -120px 0 -120px)}
 .p-hero .wm.f{color:var(--ac);clip-path:none}
 .p-hero .wm.o{transform:translate(calc(.028em + var(--px)),calc(.028em + var(--py)))}
 .p-hero .wm.o .ch{color:transparent;-webkit-text-stroke:clamp(1.5px,.15vw,3px) var(--paper)}

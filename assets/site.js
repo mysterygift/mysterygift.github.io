@@ -21,7 +21,7 @@
       var pn = box.parentNode, cs = getComputedStyle(pn);
       var target = pn.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       var max = box.dataset.maxvh ? innerHeight * parseFloat(box.dataset.maxvh) : 1e9;
-      var fs = Math.min(100 * target / w * 0.985, max) + 'px';
+      var fs = Math.min(100 * target / w * 0.96, max) + 'px';
       layers.forEach(function (l) { l.style.fontSize = fs; });
     });
   }
