@@ -142,6 +142,22 @@ a{color:inherit}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
+/* Newer panels */
+.tram{position:relative;padding:8px 10px 10px 46px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;line-height:1.55}
+.tram p{margin:0}
+.tram .tr{position:absolute;top:10px;bottom:10px;width:0;border-left:2px solid #0c0c0c}
+.tram .t1{left:10px} .tram .t2{left:22px;border-left-style:dashed;bottom:48px} .tram .t3{left:34px;border-left-color:#6a4cff;top:46px}
+.tram .tl1,.tram .tl2{position:absolute;top:0;font:700 8.5px var(--sans);white-space:nowrap}
+.tram .tl1{left:6px;top:-1px;display:none}.tram .tl2{display:none}
+.scr{margin:0;padding:10px 12px;line-height:1.7;font-size:12px}
+.tg{padding:1px 3px;border-radius:2px;border-bottom:2px solid #0c0c0c;font-weight:600}
+.tg.c{background:var(--lime)}.tg.p{background:var(--lilac)}.tg.e{background:#ffd9a8}.tg.v{background:#a8e4ff}
+.skel{height:7px;border-radius:2px;background:var(--muted);margin:8px 0}.skel.s2{width:86%}.skel.s3{width:62%}
+.sig{border:1px solid var(--ink);border-radius:4px;background:#fff;padding:2px 8px}
+.fld{border:1px solid var(--ink);border-radius:4px;background:#fff;padding:6px 9px;font-weight:700}
+
+.dv:has(.cb){grid-template-columns:auto 1fr auto;align-items:center}
+
 
 :root{--gridd:rgba(212,255,58,.07)}
 html{background:var(--ink)}
@@ -405,3 +421,31 @@ html.flat .sl-shot .shot .win-body{max-height:none}
   .rel .sep{margin:0 .4em}
 }
 .pg span{font-size:clamp(2.6rem,8vw,7.5rem)}
+
+/* ---- experimental labels, BBC row, home "New" strip ---- */
+.expb{display:inline-block;vertical-align:middle;margin-left:.6em;padding:3px 8px;border:1px solid var(--ac);border-radius:3px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);line-height:1;transform:translateY(-.15em)}
+.crumb .exp{background:var(--ac);color:var(--ink);padding:2px 8px;border-radius:3px}
+.expnote{border-top:1px solid var(--ac);border-bottom:1px solid rgba(251,251,247,.2);background:rgba(251,251,247,.04)}
+.expnote p{margin:0;padding:18px 0;max-width:80ch;color:#cfcfc6;font-weight:500;line-height:1.5}
+.expnote b{color:var(--ac);text-transform:uppercase;letter-spacing:.1em;font-size:.85em}
+.bbc{margin-top:clamp(28px,4vw,48px);border:1px solid var(--lilac);border-radius:6px;padding:clamp(18px,3vw,32px)}
+.bbc .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);margin:0 0 8px}
+.bbc h3{font-size:clamp(1.6rem,3vw,2.6rem);margin:0;line-height:1}
+.bbc .lead2{max-width:62ch;color:#cfcfc6;line-height:1.55;font-weight:500;margin:12px 0 0}
+.series{list-style:none;padding:0;margin:20px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(251,251,247,.2)}
+.series li{padding:12px 14px 12px 0;border-bottom:1px solid rgba(251,251,247,.2);display:flex;gap:12px;align-items:baseline;font-weight:600}
+.series b{color:var(--lilac);font-variant-numeric:tabular-nums;font-size:1.3rem;letter-spacing:-.03em}
+.newstrip{padding:clamp(52px,8vw,120px) 0;border-top:1px solid var(--lime);position:relative}
+.newstrip .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin:0 0 14px}
+.newstrip h2{font-size:clamp(2.2rem,6vw,5.5rem);line-height:.95}
+.ngrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:clamp(26px,4vw,48px)}
+.ncard{position:relative;display:block;border:1px solid rgba(251,251,247,.35);border-radius:6px;padding:16px 16px 40px;text-decoration:none;color:var(--paper);background:rgba(251,251,247,.03);transition:transform .12s,background-color .12s,color .12s,border-color .12s;min-height:190px}
+.ncard:hover{transform:translate(-2px,-2px);background:var(--lime);color:var(--ink);border-color:var(--lime)}
+.ncard .nk{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--lime);border:1px solid currentColor;border-radius:3px;padding:2px 6px}
+.ncard:hover .nk{color:var(--ink)}
+.ncard h3{font-size:clamp(1.25rem,2vw,1.8rem);line-height:1;margin:12px 0 8px}
+.ncard p{margin:0;font-size:.92rem;line-height:1.45;font-weight:500;opacity:.9}
+.ncard i{position:absolute;right:14px;bottom:10px;font-style:normal;font-weight:700;font-size:1.4rem;transition:transform .2s}
+.ncard:hover i{transform:translateX(4px)}
+@media (max-width:1100px){.ngrid{grid-template-columns:repeat(2,1fr)}.series{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.ngrid{grid-template-columns:1fr}.series{grid-template-columns:1fr}}
