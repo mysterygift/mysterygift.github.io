@@ -16,6 +16,7 @@ Copy an existing row in the category page's `<section class="fns">` and change t
 
 - Simple, direct, no-nonsense. Tagline: "No-nonsense production management."
 - Separate things with `|`. Never dots, bullets or middots. No em dashes.
+- **Do not link to the source code, and do not say Albatross is free or open source.** No "Source" or "View source" links, no "free", "open source", "no subscription", price or "no catch" claims, here or in meta descriptions. The Download button (the GitHub releases page) is fine.
 - Only claim what the app does. Source of truth is the Albatross repo (`mysterygift/albatross`, `dev` branch): `GUIDEBOOK/`, `RELEASE_NOTES.md` and the code. Features flagged `experimental` in the app's navigation must be labelled Experimental here.
 - Look: the Yuzu theme inverted (ink ground, lime `#d4ff3a`, lilac `#b9a6ff`, hairlines, square corners, bold tight headings, scroll animations).
 
