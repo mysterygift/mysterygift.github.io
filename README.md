@@ -31,7 +31,7 @@ Capture the app in the Yuzu theme (Settings, Appearance). A window around 1600 p
 
 ## Experimental features
 
-Floor Plans, Script Supervisor, Send Day Pack and Overtime are experimental in the app. They are hidden there until you tick Show experimental features in Settings, under Developer. The site labels them Experimental.
+Script Supervisor, Field Log, Send Edit Pack and Overtime are experimental in the app (Floor Plans and Send Day Pack are now stable). They are hidden there until you tick Show experimental features in Settings, under Developer. Documentary and Corporate productions show Script Supervisor, Field Log and Send Edit Pack without it. The site labels them Experimental.
 
 ## Style rules
 
