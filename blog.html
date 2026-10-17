@@ -1,0 +1,88 @@
+---
+title: Blog
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blog | Albatross | No-nonsense production management</title>
+<meta name="description" content="The Albatross blog: release news, guides and updates on Albatross production management.">
+<meta name="theme-color" content="#0c0c0c">
+<link rel="icon" type="image/png" href="albatross-128x.png">
+<link rel="apple-touch-icon" href="albatross-128x.png">
+<meta property="og:title" content="Blog | Albatross | No-nonsense production management">
+<meta property="og:description" content="The Albatross blog: release news, guides and updates on Albatross production management.">
+<meta property="og:image" content="https://mysterygift.github.io/albatross-128x.png">
+<link rel="alternate" type="application/atom+xml" title="Albatross Blog" href="feed.xml">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="a-lime">
+<div id="prog" aria-hidden="true"></div>
+<a class="sr" href="#main">Skip to content</a>
+<header class="top" id="hdr">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="albatross-128x.png" alt="" width="30" height="30"><span>ALBATROSS</span></a>
+    <nav class="main" aria-label="Main"><a href="plan.html">Plan</a><span class="sep" aria-hidden="true">|</span><a href="people.html">People</a><span class="sep" aria-hidden="true">|</span><a href="money.html">Money</a><span class="sep" aria-hidden="true">|</span><a href="deliver.html">Deliver</a><span class="sep" aria-hidden="true">|</span><a href="tasks.html">Tasks</a><span class="sep" aria-hidden="true">|</span><a href="blog.html" class="nav-on" aria-current="page">Blog</a></nav>
+    <a class="btn pri" href="https://github.com/mysterygift/albatross/releases/">Download</a>
+    <details class="menu"><summary>Menu</summary>
+      <nav aria-label="Mobile"><a href="plan.html">Plan</a><a href="people.html">People</a><a href="money.html">Money</a><a href="deliver.html">Deliver</a><a href="tasks.html">Tasks</a><a href="blog.html">Blog</a></nav>
+    </details>
+  </div>
+</header>
+<main id="main">
+<section class="p-hero short" id="top">
+  <div class="wrap" style="width:100%">
+    <div class="crumb fade" style="animation-delay:.05s"><span>Blog</span><span class="sep">|</span><span>{{ site.posts.size }} {% if site.posts.size == 1 %}post{% else %}posts{% endif %}</span></div>
+    <div class="wmb" data-fit data-maxvh=".3">
+      <h1 class="wm o" aria-label="Blog"><span class="ch" style="--i:0" aria-hidden="true">B</span><span class="ch" style="--i:1" aria-hidden="true">L</span><span class="ch" style="--i:2" aria-hidden="true">O</span><span class="ch" style="--i:3" aria-hidden="true">G</span></h1>
+      <div class="wm f" aria-hidden="true"><span class="ch" style="--i:0" aria-hidden="true">B</span><span class="ch" style="--i:1" aria-hidden="true">L</span><span class="ch" style="--i:2" aria-hidden="true">O</span><span class="ch" style="--i:3" aria-hidden="true">G</span></div>
+    </div>
+    <h2 class="p-head fade" style="animation-delay:.6s">News from Albatross.</h2>
+    <p class="p-lede fade" style="animation-delay:.75s">Release news, guides and updates, newest first.</p>
+  </div>
+</section>
+
+<section class="reader" id="posts" aria-label="Posts"><div class="wrap reader-in">
+{%- if site.posts.size > 0 %}
+  <aside class="b-list" aria-label="All posts">
+    <p class="kicker">All posts</p>
+    <ol>
+{%- for post in site.posts %}
+      <li><a href="#{{ post.slug }}" data-post="{{ post.slug }}"><time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%-d %b %Y' }}</time><span class="t">{{ post.title | escape }}</span></a></li>
+{%- endfor %}
+    </ol>
+  </aside>
+  <div class="b-posts">
+{%- for post in site.posts %}
+    <article class="post" id="{{ post.slug }}" aria-labelledby="{{ post.slug }}-h">
+      <div class="crumb"><time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%-d %B %Y' }}</time>{% if post.tag %}<span class="sep">|</span><span>{{ post.tag | escape }}</span>{% endif %}<span class="sep">|</span><span>{{ post.content | number_of_words | divided_by: 220 | at_least: 1 }} min read</span></div>
+      <h2 class="post-h" id="{{ post.slug }}-h">{{ post.title | escape }}</h2>
+      <div class="prose">
+{{ post.content }}
+      </div>
+      {%- if post.previous or post.next %}
+      <nav class="post-pn" aria-label="More posts">
+        {%- if post.next %}<a class="pn newer" href="#{{ post.next.slug }}" data-post="{{ post.next.slug }}"><small>&larr; Newer</small><span>{{ post.next.title | escape }}</span></a>{% endif %}
+        {%- if post.previous %}<a class="pn older" href="#{{ post.previous.slug }}" data-post="{{ post.previous.slug }}"><small>Older &rarr;</small><span>{{ post.previous.title | escape }}</span></a>{% endif %}
+      </nav>
+      {%- endif %}
+    </article>
+{%- endfor %}
+  </div>
+{%- else %}
+  <p class="b-empty">No posts yet.</p>
+{%- endif %}
+</div></section>
+
+<nav class="pager one" aria-label="Download"><a class="pg next to-lime" href="https://github.com/mysterygift/albatross/releases/"><small>Ready?</small><span>Download <i>&rarr;</i></span></a></nav>
+</main>
+<footer class="f">
+  <div class="wrap">
+    <div><strong>ALBATROSS</strong><span class="sep">|</span>2026<span class="sep">|</span>No Holds Barred Pictures Ltd</div>
+    <div><a href="https://github.com/mysterygift/albatross/releases/">Download</a><span class="sep">|</span><a href="feed.xml">RSS</a><span class="sep">|</span><a href="#top">Back to top</a></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

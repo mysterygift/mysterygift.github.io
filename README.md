@@ -1,6 +1,6 @@
 # mysterygift.github.io
 
-The Albatross website. Plain static HTML, CSS and JS served by GitHub Pages. No build step. Read `CLAUDE.md` before changing it.
+The Albatross website. Plain static HTML, CSS and JS served by GitHub Pages. No build step, except the blog: GitHub Pages builds `_posts/` into `blog.html` with Jekyll on push. Read `CLAUDE.md` before changing it.
 
 ## Structure
 
@@ -8,12 +8,37 @@ The Albatross website. Plain static HTML, CSS and JS served by GitHub Pages. No 
 |------|------------|
 | `index.html` | Home |
 | `plan.html` `people.html` `money.html` `deliver.html` `tasks.html` | One topline page per category. Each function is a name and one headline |
-| `assets/site.css` `assets/site.js` | Shared styles and scroll animations |
+| `blog.html` | The Blog. Every post on one page, picked from a list on the left |
+| `_posts/` | Blog posts, one Markdown file each (see below) |
+| `_config.yml` `_layouts/post.html` | Jekyll settings for the blog, and the redirect each post's own URL uses |
+| `assets/site.css` `assets/site.js` | Shared styles, scroll animations and the blog reader |
 | `img/` | Hero screenshots (see below) |
 | `mockups/` | The two design mockups (A Paper, B Ink). Kept for reference, not linked from the site |
 | `script.html` `budget.html` and the other old page names | Tiny redirects to the category page, so old links keep working |
 
 The look is the Albatross Yuzu theme, inverted: ink ground, acid lime `#d4ff3a`, lilac `#b9a6ff`, hairline borders, square corners, bold tight headings.
+
+## Writing a blog post
+
+Add one file to `_posts/` and push to `main`. GitHub Pages builds it.
+
+File name: `_posts/YYYY-MM-DD-short-title.md`, for example `_posts/2026-11-02-call-sheets-in-one-click.md`. The date is the post date, the short title is its address (`blog.html#call-sheets-in-one-click`).
+
+```markdown
+---
+title: Call sheets in one click
+tag: Guide
+summary: One line for link previews.
+---
+
+Write the post in Markdown. **Bold**, [links](https://example.com), lists, quotes, tables and code all work.
+
+## A heading
+
+![Alt text](/img/blog/call-sheet.png)
+```
+
+`tag` and `summary` are optional. Images go in `img/blog/`. To preview locally: `gem install jekyll jekyll-feed kramdown-parser-gfm`, then `jekyll serve` and open `localhost:4000/blog.html`.
 
 ## Screenshots
 
