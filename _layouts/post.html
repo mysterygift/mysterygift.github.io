@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+{%- capture desc -%}{{ page.summary | default: page.excerpt | strip_html | normalize_whitespace | truncate: 160 }}{%- endcapture -%}
+{%- capture to -%}{{ '/blog.html' | relative_url }}#{{ page.slug }}{%- endcapture %}
+<title>{{ page.title | escape }} | Albatross Blog</title>
+<meta name="description" content="{{ desc | escape }}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ page.title | escape }} | Albatross Blog">
+<meta property="og:description" content="{{ desc | escape }}">
+<meta property="og:image" content="https://mysterygift.github.io/albatross-128x.png">
+<link rel="canonical" href="{{ '/blog.html' | absolute_url }}#{{ page.slug }}">
+<meta http-equiv="refresh" content="0; url={{ to }}">
+<script>location.replace("{{ to }}")</script>
+</head>
+<body style="font-family:system-ui,sans-serif;background:#0c0c0c;color:#fbfbf7;padding:2rem">
+<p>This post is on the blog: <a href="{{ to }}" style="color:#d4ff3a">{{ page.title | escape }}</a>.</p>
+</body>
+</html>

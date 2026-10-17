@@ -129,4 +129,45 @@
       });
     });
   }
+
+  // blog: one post at a time, picked from the list. Without JS every post shows, one after another.
+  var posts = $$('.post');
+  if (posts.length) {
+    var title = document.title, shown = null;
+    var byId = function (id) { return posts.filter(function (p) { return p.id === id; })[0]; };
+    var keep = function (el, box) {
+      var e = el.getBoundingClientRect(), b = box.getBoundingClientRect();
+      if (e.left < b.left || e.right > b.right) box.scrollLeft += e.left - b.left;
+      if (e.top < b.top || e.bottom > b.bottom) box.scrollTop += e.top - b.top;
+    };
+    var show = function (post, jump) {
+      shown = post;
+      posts.forEach(function (p) { p.hidden = p !== post; });
+      $$('.b-list a').forEach(function (a) {
+        if (a.dataset.post === post.id) { a.setAttribute('aria-current', 'true'); keep(a.parentNode, $('.b-list ol')); keep(a.parentNode, $('.b-list')); }
+        else a.removeAttribute('aria-current');
+      });
+      document.title = $('.post-h', post).textContent + ' | Albatross Blog';
+      var top = post.getBoundingClientRect().top + scrollY - 84;
+      if (jump === 'always' || (jump && scrollY > top)) scrollTo({ top: top, behavior: jump === 'always' || reduce ? 'auto' : 'smooth' });
+      req();
+    };
+    var fromHash = function (jump) {
+      var id = decodeURIComponent(location.hash.slice(1)), p = id ? byId(id) : posts[0];
+      if (p && p !== shown) show(p, jump);
+    };
+    $$('[data-post]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var p = byId(a.dataset.post);
+        if (!p) return;
+        e.preventDefault();
+        if (p !== shown) history.pushState(null, '', '#' + p.id);
+        show(p, true);
+      });
+    });
+    addEventListener('popstate', function () { fromHash(true); });
+    addEventListener('hashchange', function () { fromHash(true); });
+    if (byId(decodeURIComponent(location.hash.slice(1)))) fromHash('always');
+    else { show(posts[0]); document.title = title; }
+  }
 })();
