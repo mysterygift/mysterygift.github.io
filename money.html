@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Money | Albatross | No-nonsense production management</title>
-<meta name="description" content="Albatross Money: budgets, chart templates, actuals, cost reports, revisions, vendors, purchase orders, invoices and floats for film, TV and video productions.">
+<meta name="description" content="Albatross Money: budgets, actuals, cost reports, revisions, funding, invoices out, cash flow, vendors, purchase orders and floats for film, TV and video productions.">
 <meta name="theme-color" content="#0c0c0c">
 <link rel="icon" type="image/png" href="albatross-128x.png">
 <link rel="apple-touch-icon" href="albatross-128x.png">
 <meta property="og:title" content="Money | Albatross | No-nonsense production management">
-<meta property="og:description" content="Albatross Money: budgets, chart templates, actuals, cost reports, revisions, vendors, purchase orders, invoices and floats for film, TV and video productions.">
+<meta property="og:description" content="Albatross Money: budgets, actuals, cost reports, revisions, funding, invoices out, cash flow, vendors, purchase orders and floats for film, TV and video productions.">
 <meta property="og:image" content="https://mysterygift.github.io/albatross-128x.png">
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -35,7 +35,7 @@
       <div class="wm f" aria-hidden="true"><span class="ch" style="--i:0" aria-hidden="true">M</span><span class="ch" style="--i:1" aria-hidden="true">O</span><span class="ch" style="--i:2" aria-hidden="true">N</span><span class="ch" style="--i:3" aria-hidden="true">E</span><span class="ch" style="--i:4" aria-hidden="true">Y</span></div>
     </div>
     <h2 class="p-head fade" style="animation-delay:.7s">Every penny, accounted for.</h2>
-    <p class="p-lede fade" style="animation-delay:.85s">Budget, spend and paperwork in one place. Know where you stand against budget today, not at wrap.</p>
+    <p class="p-lede fade" style="animation-delay:.85s">Budget, spend, funding and invoices in one place. Know where you stand against budget today, not at wrap.</p>
     <div class="cta fade" style="animation-delay:1s">
       <a class="btn pri lg" href="https://github.com/mysterygift/albatross/releases/">Download latest build</a>
       <a class="btn lg" href="#functions">See what it does</a>
@@ -49,14 +49,19 @@
 
 <section class="fns" id="functions" aria-label="Money functions"><div class="wrap">
   <p class="kicker reveal">What it does</p>
-<div class="fn reveal" id="budget" style="--d:0ms"><span class="n" aria-hidden="true">01</span><h3>Budget</h3><p>A Standard or BBC-style chart. Change anything.</p></div>
-<div class="fn reveal" id="log-spend" style="--d:40ms"><span class="n" aria-hidden="true">02</span><h3>Log Spend</h3><p>Five spend types. One quick form.</p></div>
-<div class="fn reveal" id="cost-report" style="--d:80ms"><span class="n" aria-hidden="true">03</span><h3>Cost Report</h3><p>Print-ready, grouped your way.</p></div>
-<div class="fn reveal" id="revisions" style="--d:120ms"><span class="n" aria-hidden="true">04</span><h3>Budget Revisions</h3><p>Try a scenario. Compare it. Go live.</p></div>
-<div class="fn reveal" id="vendors" style="--d:160ms"><span class="n" aria-hidden="true">05</span><h3>Vendors, POs and Invoices</h3><p>Every spend traced to its PO and invoice.</p></div>
-<div class="fn reveal" id="match-expenses" style="--d:200ms"><span class="n" aria-hidden="true">06</span><h3>Match Expenses</h3><p>Reconcile spend to budget lines.</p></div>
-<div class="fn reveal" id="floats" style="--d:240ms"><span class="n" aria-hidden="true">07</span><h3>Floats</h3><p>Petty cash, reconciled.</p></div>
-<div class="fn reveal" id="tax-vat" style="--d:240ms"><span class="n" aria-hidden="true">08</span><h3>Tax and VAT</h3><p>Tax credits and VAT, tracked per expense.</p></div>
+<div class="fn reveal" id="budget" style="--d:0ms"><span class="n" aria-hidden="true">01</span><h3>Budget</h3><p>A Standard or BBC-style chart. Find any account by code or name.</p></div>
+<div class="fn reveal" id="log-spend" style="--d:40ms"><span class="n" aria-hidden="true">02</span><h3>Log Spend</h3><p>Five spend types. Receipts read themselves on the Mac.</p></div>
+<div class="fn reveal" id="cost-report" style="--d:80ms"><span class="n" aria-hidden="true">03</span><h3>Cost Report</h3><p>Top sheet or full detail. Print-ready.</p></div>
+<div class="fn reveal" id="revisions" style="--d:120ms"><span class="n" aria-hidden="true">04</span><h3>Budget Revisions</h3><p>Try a scenario. Compare it account by account. Go live.</p></div>
+<div class="fn reveal" id="match-expenses" style="--d:160ms"><span class="n" aria-hidden="true">05</span><h3>Match Expenses</h3><p>Click an expense. Type amounts against its line items.</p></div>
+<div class="fn reveal" id="floats" style="--d:200ms"><span class="n" aria-hidden="true">06</span><h3>Floats</h3><p>Petty cash, reconciled.</p></div>
+<div class="fn reveal" id="tax-vat" style="--d:240ms"><span class="n" aria-hidden="true">07</span><h3>Tax and VAT</h3><p>Tax credits and VAT, tracked per expense.</p></div>
+<div class="fn reveal" id="cash-flow" style="--d:240ms"><span class="n" aria-hidden="true">08</span><h3>Cash Flow</h3><p>Money in and out by month. Low points flagged.</p></div>
+<div class="fn reveal" id="funding" style="--d:240ms"><span class="n" aria-hidden="true">09</span><h3>Funding</h3><p>Funders, client POs and instalments. Drawdowns held by conditions.</p></div>
+<div class="fn reveal" id="invoices-out" style="--d:240ms"><span class="n" aria-hidden="true">10</span><h3>Invoices Out</h3><p>Raise, send and chase. Payments and credit notes tracked.</p></div>
+<div class="fn reveal" id="vendors" style="--d:240ms"><span class="n" aria-hidden="true">11</span><h3>Vendors</h3><p>Search, filter and sort. Spend and overdue invoices alongside.</p></div>
+<div class="fn reveal" id="purchase-orders" style="--d:240ms"><span class="n" aria-hidden="true">12</span><h3>Purchase Orders and Invoices</h3><p>Every PO and invoice in one list. Numbers fill in by your rules.</p></div>
+<div class="fn reveal" id="vendor-reports" style="--d:240ms"><span class="n" aria-hidden="true">13</span><h3>Vendor Reports</h3><p>Unpaid invoices by age, open POs, committed not yet invoiced.</p></div>
   
 </div></section>
 
