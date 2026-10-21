@@ -7,14 +7,14 @@ The Albatross website. Plain static HTML, CSS and JS served by GitHub Pages. No 
 | Path | What it is |
 |------|------------|
 | `index.html` | Home |
-| `plan.html` `people.html` `money.html` `deliver.html` `tasks.html` | One topline page per category. Each function is a name and one headline |
+| `plan.html` `people.html` `money.html` `on-set.html` `post.html` `tasks.html` | One topline page per category. Each function is a name and one headline |
 | `blog.html` | The Blog. Every post on one page, picked from a list on the left |
 | `_posts/` | Blog posts, one Markdown file each (see below) |
 | `_config.yml` `_layouts/post.html` | Jekyll settings for the blog, and the redirect each post's own URL uses |
 | `assets/site.css` `assets/site.js` | Shared styles, scroll animations and the blog reader |
 | `img/` | Hero screenshots (see below) |
 | `mockups/` | The two design mockups (A Paper, B Ink). Kept for reference, not linked from the site |
-| `script.html` `budget.html` and the other old page names | Tiny redirects to the category page, so old links keep working |
+| `deliver.html` `script.html` `budget.html` and the other old page names | Tiny redirects to the category page, so old links keep working |
 
 The look is the Albatross Yuzu theme, inverted: ink ground, acid lime `#d4ff3a`, lilac `#b9a6ff`, hairline borders, square corners, bold tight headings.
 
@@ -49,7 +49,8 @@ Each category page has one hero screenshot slot, and the home page reuses them. 
 | Plan | `img/plan-hero.png` |
 | People | `img/people-hero.png` |
 | Money | `img/money-hero.png` |
-| Deliver | `img/deliver-hero.png` |
+| On Set | `img/on-set-hero.png` |
+| Post | `img/post-hero.png` |
 | Tasks | `img/tasks-hero.png` |
 
 Capture the app in the Yuzu theme (Settings, Appearance). A window around 1600 px wide at 2x works well. PNG only, lowercase, as named above.
