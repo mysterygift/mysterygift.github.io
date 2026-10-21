@@ -2,7 +2,7 @@
 
 ## Keep it topline
 
-- The site is the home page, five category pages (Plan, People, Money, Deliver and Tasks) and the Blog (`blog.html`). **No subpages.** Do not add a page for a feature. Longer writing about a feature goes in a blog post, not a page.
+- The site is the home page, six category pages (Plan, People, Money, On Set, Post and Tasks) and the Blog (`blog.html`). The pages follow the app's sidebar sections: On Set and Post are the app's On Set and Post (Deliver was renamed Post), and Tasks also holds the Dashboard and Documents, which sit at the top of the sidebar. When the app moves a feature between sections, move its row to match. **No subpages.** Do not add a page for a feature. Longer writing about a feature goes in a blog post, not a page.
 - On a category page, each function gets its **name and one headline**. That is all. No paragraphs, no bullet lists, no per-function screenshots, no "connected" or "how it works" sections.
 - One hero screenshot per category page (`img/<section>-hero.png`). Nothing else needs an image.
 - New functionality in the app means one new row on the right category page, plus a card in the "What's new" strip on the home page if it is worth shouting about. Keep that strip to about eight cards.
